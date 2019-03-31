@@ -3,21 +3,20 @@ import socket
 class project_server(object):
 
     def __init__(self,host ="", port=8080):
-        self._host, port=host, port
+        self._host, port =host, port
         self.address = (host, port)
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.setsckopt(sockt.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.s.bind(self.address)
+        self.s.listen(5)
 
-    def ___INIT___(self):
-        self.sock.bind(self.address)
-        self.sock.listen(5)
+        print("server is connected")
+        #self.gere_con()
 
-        print "server is connected"
-        self.gere_con()
 
     def handle_request(self):
         while True:
-            clientsock, address = self.sock.accept()
+            clientsock, address = self.s.accept()
             print("Connect",address)
             clientsock.sendall(str(address + ">>>connected on server<<<"))
 
@@ -25,7 +24,7 @@ class project_server(object):
             Message = clientsock.recv(500)
 
             if Message :
-                print ">>>>  "
+                print(">>>>  ")
             client.sendall(Message)
             clentsock.close()
 
@@ -35,3 +34,7 @@ class project_server(object):
                     server.start()
                 except keyboardInterrupt:
                     exit()
+
+
+something = project_server()
+something.handle_request()
